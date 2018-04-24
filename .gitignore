@@ -1,0 +1,16 @@
+[Oo]bj/
+[Bb]in/
+TestResults/
+_ReSharper.*/
+/packages/
+artifacts/
+PublishProfiles/
+*.user
+*.suo
+*.cache
+*.sln.ide
+.vs
+.build/
+.testPublish/
+msbuild.*
+src/**/tools/Roslyn*/
