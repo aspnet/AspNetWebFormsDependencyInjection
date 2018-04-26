@@ -1,0 +1,23 @@
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <RepositoryRootEx Condition="'$(RepositoryRootEx)' == ''">$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildThisFileDirectory),WebFormsDependencyInjection.sln))\</RepositoryRootEx>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Configuration Condition="'$(Configuration)' == ''">Release</Configuration>
+    <BinPath>$(RepositoryRootEx)bin\</BinPath>
+    <ObjPath>$(RepositoryRootEx)obj\</ObjPath>
+    <OutputPath>$(BinPath)$(Configuration)\</OutputPath>
+    <IntermediateOutputPath>$(ObjPath)$(Configuration)\$(MSBuildProjectName)\</IntermediateOutputPath>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <AssemblyPath Condition="'$(CodeSignEnabled)' == 'true'">$(CodeSignOutputPath)</AssemblyPath>
+    <AssemblyPath Condition="'$(AssemblyPath)' == ''">$(OutputPath)</AssemblyPath>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <CustomAfterProjectTargets>$(MSBuildThisFileDirectory)WebFormsDependencyInjection.Extensions.targets</CustomAfterProjectTargets>
+  </PropertyGroup>
+</Project>
