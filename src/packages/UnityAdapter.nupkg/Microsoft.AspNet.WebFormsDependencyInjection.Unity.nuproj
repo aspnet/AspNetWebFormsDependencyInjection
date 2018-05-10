@@ -20,10 +20,7 @@
             <Source>$(OutputPath)</Source>
             <Destination>lib\Net472</Destination>
         </NuGetContent>
-        <NuGetContentProject Include="$(RepositoryRoot)\src\UnityAdapter\$(MSBuildProjectName).csproj" Condition="'$(NuGetPackSymbols)' == 'true'" />
-        <NuGetContent Include="Content\Net472\App_Start\*">
-            <Destination>content\Net472\App_Start</Destination>
-        </NuGetContent>
+        <NuGetContentProject Include="$(RepositoryRoot)\src\UnityAdapter\$(MSBuildProjectName).csproj" Condition="'$(NuGetPackSymbols)' == 'true'" />        
     </ItemGroup>
     <Import Project="$(RepositoryRoot)Tools\NuGetProj.targets"/>
 </Project>

@@ -1,4 +1,4 @@
-<Project DefaultTargets="UnitTest" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <BuildQuality Condition="'$(BuildQuality)' == ''">rtm</BuildQuality>
     <VersionStartYear>2018</VersionStartYear>
@@ -10,6 +10,5 @@
   
   <PropertyGroup Label="NuGet package dependencies">
     <UnityContainerNuGetPackageVersion>5.8.6</UnityContainerNuGetPackageVersion>
-    <WebActivatorExNuGetPackageVersion>2.2.0</WebActivatorExNuGetPackageVersion>
   </PropertyGroup>
 </Project>

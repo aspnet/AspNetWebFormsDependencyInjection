@@ -23,7 +23,6 @@
                 NuGetPackageVersion=$(NuGetPackageVersion);
                 NuGetPackageId=$(NuGetPackageId);
 		        UnityContainerNuGetPackageVersion=$(UnityContainerNuGetPackageVersion);
-                WebActivatorExNuGetPackageVersion=$(WebActivatorExNuGetPackageVersion);
             </NuSpecProperties>
         </PropertyGroup>
     </Target>

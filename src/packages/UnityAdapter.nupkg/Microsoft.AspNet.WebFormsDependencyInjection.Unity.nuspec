@@ -16,7 +16,6 @@
     <tags>ASP.NET WebForms Unity Container IoC UnityContainer</tags>
     <dependencies>
       <dependency id="Unity.Container" version="$UnityContainerNuGetPackageVersion$" />
-      <dependency id="WebActivatorEx" version="$WebActivatorExNuGetPackageVersion$" />
     </dependencies>
   </metadata>
 </package>
