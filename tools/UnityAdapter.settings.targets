@@ -4,8 +4,7 @@
     <VersionStartYear>2018</VersionStartYear>
     <VersionMajor>1</VersionMajor>
     <VersionMinor>0</VersionMinor>
-    <VersionRelease>0</VersionRelease>
-    <VersionRelease Condition="'$(BuildQuality)' != 'rtm'">$(VersionRelease)-$(BuildQuality)</VersionRelease>
+    <VersionRelease>0</VersionRelease>    
   </PropertyGroup>
   
   <PropertyGroup Label="NuGet package dependencies">

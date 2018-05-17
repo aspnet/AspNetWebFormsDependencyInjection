@@ -72,4 +72,12 @@
     <None Include="35MSSharedLib1024.snk" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="AfterBuild">
+    <ItemGroup>
+      <FilesToSign Include="$(TargetPath)" Condition="'$(SignAssembly)' == 'true'">
+        <Authenticode>Microsoft</Authenticode>
+        <StrongName>StrongName</StrongName>
+      </FilesToSign>
+    </ItemGroup>
+  </Target>
 </Project>

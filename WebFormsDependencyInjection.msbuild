@@ -1,6 +1,4 @@
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="tools\WebFormsDependencyInjection.settings.targets"/>  
-
   <ItemGroup>
     <AssemblyProject Include="src\UnityAdapter\Microsoft.AspNet.WebFormsDependencyInjection.Unity.csproj" />
   </ItemGroup>

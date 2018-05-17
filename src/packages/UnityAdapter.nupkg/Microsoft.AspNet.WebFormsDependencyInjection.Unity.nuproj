@@ -23,4 +23,14 @@
         <NuGetContentProject Include="$(RepositoryRoot)\src\UnityAdapter\$(MSBuildProjectName).csproj" Condition="'$(NuGetPackSymbols)' == 'true'" />        
     </ItemGroup>
     <Import Project="$(RepositoryRoot)Tools\NuGetProj.targets"/>
+    <Target Name="AfterBuild">
+        <PropertyGroup>
+            <OutDir>$(PackageOutputDir)</OutDir>
+        </PropertyGroup>
+        <ItemGroup>
+            <FilesToSign Include="$(NuGetPackTargetFile)" Condition="'$(SignAssembly)' == 'true'">
+                <Authenticode>NuGet</Authenticode>
+            </FilesToSign>
+        </ItemGroup>
+    </Target>
 </Project>

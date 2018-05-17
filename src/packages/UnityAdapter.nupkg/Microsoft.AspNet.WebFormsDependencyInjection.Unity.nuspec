@@ -11,6 +11,7 @@
     <summary>A Unity container adapter for HttpRuntime WebObjectActivator.</summary>
     <language>en-US</language>
     <projectUrl>http://www.asp.net/</projectUrl>
+    <iconUrl>http://go.microsoft.com/fwlink/?LinkID=288859</iconUrl>
     <licenseUrl>http://www.microsoft.com/web/webpi/eula/net_library_eula_ENU.htm</licenseUrl>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <tags>ASP.NET WebForms Unity Container IoC UnityContainer</tags>
