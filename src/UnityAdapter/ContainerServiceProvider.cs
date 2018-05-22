@@ -1,4 +1,5 @@
-﻿
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license. See the License.txt file in the project root for full license information.
 
 namespace Microsoft.AspNet.WebFormsDependencyInjection.Unity
 {
@@ -6,6 +7,7 @@ namespace Microsoft.AspNet.WebFormsDependencyInjection.Unity
     using global::Unity.Exceptions;
     using System;
     using System.Collections.Concurrent;
+    using System.Collections.Generic;
     using System.Reflection;
     using System.Web.Hosting;
 
@@ -76,13 +78,23 @@ namespace Microsoft.AspNet.WebFormsDependencyInjection.Unity
             return result;
         }
 
-        public IUnityContainer Container { get; } = new UnityContainer();
+        public IUnityContainer Container { get; internal set; } = new UnityContainer();
         
         public void Stop(bool immediate)
         {
             HostingEnvironment.UnregisterObject(this);
 
             Container.Dispose();
+        }
+
+        internal IServiceProvider NextServiceProvider
+        {
+            get { return _next; }
+        }
+
+        internal IDictionary<Type, bool> TypeCannotResolveDictionary
+        {
+            get { return _typesCannotResolve; }
         }
 
         protected virtual object DefaultCreateInstance(Type type)
