@@ -7,7 +7,7 @@
     <owners>Microsoft</owners>
     <copyright>&#169; Microsoft Corporation. All rights reserved.</copyright>
     <title>Microsoft ASP.NET WebForms Dependency Injection Unity Adapter</title>
-    <description>In .Net 4.7.2, asp.net added dependency injection in WebForms. This package is to make it easier to use Unity container in WebForms application.</description>
+    <description>In .Net 4.7.2, ASP.NET added dependency injection support in WebForms. This package is to make it easier to use Unity container in WebForms application.</description>
     <summary>A Unity container adapter for HttpRuntime WebObjectActivator.</summary>
     <language>en-US</language>
     <projectUrl>http://www.asp.net/</projectUrl>
