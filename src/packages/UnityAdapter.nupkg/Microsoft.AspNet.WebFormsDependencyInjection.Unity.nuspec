@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>$NuGetPackageId$</id>
+    <version>$NuGetPackageVersion$</version>
+    <authors>Microsoft</authors>
+    <owners>Microsoft</owners>
+    <copyright>&#169; Microsoft Corporation. All rights reserved.</copyright>
+    <title>Microsoft ASP.NET WebForms Dependency Injection Unity Adapter</title>
+    <description>In .Net 4.7.2, ASP.NET added dependency injection support in WebForms. This package is to make it easier to use Unity container in WebForms application.</description>
+    <summary>A Unity container adapter for HttpRuntime WebObjectActivator.</summary>
+    <language>en-US</language>
+    <projectUrl>http://www.asp.net/</projectUrl>
+    <iconUrl>http://go.microsoft.com/fwlink/?LinkID=288859</iconUrl>
+    <licenseUrl>http://www.microsoft.com/web/webpi/eula/net_library_eula_ENU.htm</licenseUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <tags>ASP.NET WebForms Unity Container IoC UnityContainer</tags>
+    <dependencies>
+      <dependency id="Unity.Container" version="$UnityContainerNuGetPackageVersion$" />
+    </dependencies>
+  </metadata>
+</package>

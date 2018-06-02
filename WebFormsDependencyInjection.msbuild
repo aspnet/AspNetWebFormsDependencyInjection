@@ -1,0 +1,48 @@
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <AssemblyProject Include="src\UnityAdapter\Microsoft.AspNet.WebFormsDependencyInjection.Unity.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <TestProject Include="test\UnityAdapter.Test\Microsoft.AspNet.WebFormsDependencyInjection.Unity.Test.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageProject Include="src\Packages\Packages.csproj" />
+  </ItemGroup>
+  
+  <Target Name="Build" DependsOnTargets="BuildAssemblies;UnitTest;BuildPackages" />
+  <Target Name="Clean" DependsOnTargets="CleanPackages;CleanAssemblies" />
+  <Target Name="Rebuild" DependsOnTargets="Clean;Build" />
+  
+  <Target Name="BuildAssemblies" DependsOnTargets="RestorePackages">
+    <MSBuild Targets="Build" Projects="@(AssemblyProject);@(TestProject)" />
+  </Target> 
+
+  <Target Name="CleanAssemblies">
+    <MSBuild Targets="Clean" Projects="WebFormsDependencyInjection.sln" />
+  </Target>
+
+  <Target Name="RebuildAssemblies" DependsOnTargets="Clean;Build" />
+
+  <!-- Packages build -->
+
+  <Target Name="BuildPackages" DependsOnTargets="RestorePackages">
+    <MSBuild Targets="" Projects="@(PackageProject)" />
+  </Target>
+
+  <Target Name="CleanPackages">
+    <MSBuild Targets="Clean" Projects="@(PackageProject)" />
+  </Target>
+
+  <Target Name="RebuildPackages" DependsOnTargets="CleanPackages;BuildPackages" />
+
+  <Target Name="RestorePackages">
+    <Exec Command=".nuget\NuGet.exe restore" />
+  </Target>
+
+  
+  <Target Name="UnitTest">
+    <MSBuild Targets="XunitTest" Projects="@(TestProject)" />
+  </Target>
+
+  <Import Project="tools\WebFormsDependencyInjection.targets"/>
+</Project>

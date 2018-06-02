@@ -1,0 +1,43 @@
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <CustomBeforeProjectTargets>$(MSBuildThisFileDirectory)WebFormsDependencyInjection.Extensions.settings.targets</CustomBeforeProjectTargets>
+    <RepositoryRoot>$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildThisFileDirectory), 'WebFormsDependencyInjection.sln'))\</RepositoryRoot>
+  </PropertyGroup>
+
+  <Import Project="$(RepositoryRoot)\packages\microbuild.core.0.3.0\build\MicroBuild.Core.props" 
+      Condition="Exists('$(RepositoryRoot)\packages\microbuild.core.0.3.0\build\MicroBuild.Core.props')" />
+  <Import Project="$(RepositoryRoot)\packages\microbuild.core.0.3.0\build\MicroBuild.Core.targets" 
+      Condition="Exists('$(RepositoryRoot)\packages\microbuild.core.0.3.0\build\MicroBuild.Core.targets')" />
+  <Import Project="$(CustomBeforeProjectTargets)" Condition="Exists('$(CustomBeforeProjectTargets)')" Label="Pre-targets Build Extensibility Point"/>
+
+  <!-- Default properties -->
+
+  <PropertyGroup>
+    <RepositoryRoot Condition="'$(RepositoryRoot)' == ''">$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildThisFileDirectory), WebFormsDependencyInjection.sln))\</RepositoryRoot>
+    <SolutionDir>$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildThisFileDirectory), WebFormsDependencyInjection.sln))\</SolutionDir>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Common Configuration">
+    <Configuration Condition="'$(Configuration)' == ''">Release</Configuration>
+    <OutputPath>$(RepositoryRoot)bin\$(Configuration)\</OutputPath>
+    <IntermediateOutputPath>$(RepositoryRoot)obj\$(Configuration)\$(MSBuildProjectName)\</IntermediateOutputPath>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <AssemblyPath Condition="'$(AssemblyPath)' == ''">$(OutputPath)</AssemblyPath>
+    <NuGetOutputPath>$(AssemblyPath)Packages</NuGetOutputPath>
+    <NuGetSymbolsOutputPath>$(AssemblyPath)\SymbolPackages</NuGetSymbolsOutputPath>
+    <TestOutputPath>$(OutputPath)test\</TestOutputPath>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <ReferencePackagesPath>$(RepositoryRoot)packages\</ReferencePackagesPath>
+    <NuGetPackSymbols Condition="'$(NuGetPackSymbols)' == ''">true</NuGetPackSymbols>
+    <SourceRootFullPath>$(RepositoryRoot)\src\$(MSBuildProjectName)\</SourceRootFullPath>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <CustomAfterMicrosoftCommonTargets>$(RepositoryRoot)tools\WebFormsDependencyInjection.targets</CustomAfterMicrosoftCommonTargets>
+    <CustomAfterNuGetProjTargets>$(CustomAfterMicrosoftCommonTargets)</CustomAfterNuGetProjTargets>
+  </PropertyGroup>
+</Project>
