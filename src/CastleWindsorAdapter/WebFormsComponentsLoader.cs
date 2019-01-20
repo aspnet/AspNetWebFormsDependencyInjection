@@ -19,7 +19,9 @@
 
             if (service.IsWebFormsComponent())
             {
-                return Component.For(service).Named(name).LifestylePerWebRequest();
+                return Component.For(service)
+                                .LifeStyle.Transient
+                                .NamedAutomatically("webforms");
             }
 
             return null;
