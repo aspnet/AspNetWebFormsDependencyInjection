@@ -2,11 +2,15 @@
 {
     using System;
     using System.Globalization;
+    using System.Web;
+    using System.Web.UI;
+
     public static class TypeExtensions
     {
         public static bool IsWebFormsComponent(this Type type)
         {
-            return type.Namespace.StartsWith("ASP", true, CultureInfo.InvariantCulture);
+            return (typeof(UserControl).IsAssignableFrom(type) ||
+                    typeof(IHttpHandler).IsAssignableFrom(type));
         }
     }
 }
