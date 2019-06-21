@@ -4,7 +4,6 @@
 namespace Microsoft.AspNet.WebFormsDependencyInjection.Unity
 {
     using global::Unity;
-    using global::Unity.Exceptions;
     using System;
     using System.Collections.Concurrent;
     using System.Collections.Generic;
@@ -14,15 +13,24 @@ namespace Microsoft.AspNet.WebFormsDependencyInjection.Unity
     /// <summary>
     /// The Unity adapter for WebObjectActivator
     /// </summary>
-    class ContainerServiceProvider : IServiceProvider, IRegisteredObject
+    internal class ContainerServiceProvider : IServiceProvider, IRegisteredObject, IDisposable
     {
+        public IUnityContainer Container { get; internal set; } = new UnityContainer();
+
         private const int TypesCannontResolveCacheCap = 100000;
-        private readonly IServiceProvider _next;
+
         private readonly ConcurrentDictionary<Type, bool> _typesCannotResolve = new ConcurrentDictionary<Type, bool>();
+
+        internal IDictionary<Type, bool> TypeCannotResolveDictionary
+        {
+            get { return _typesCannotResolve; }
+        }
+
+        internal IServiceProvider NextServiceProvider { get; }
 
         public ContainerServiceProvider(IServiceProvider next)
         {
-            _next = next;
+            NextServiceProvider = next;
             HostingEnvironment.RegisterObject(this);
         }
 
@@ -31,55 +39,37 @@ namespace Microsoft.AspNet.WebFormsDependencyInjection.Unity
         /// create the instances of Page/UserControl/HttpModule etc.
         /// </summary>
         /// <param name="serviceType"></param>
-        /// <returns></returns>
         public object GetService(Type serviceType)
         {
-            //
             // Try unresolvable types
-            if (_typesCannotResolve.ContainsKey(serviceType))
-            { 
-                return DefaultCreateInstance(serviceType);
-            }
+            if (_typesCannotResolve.ContainsKey(serviceType)) { return DefaultCreateInstance(serviceType); }
 
-            //
             // Try the container
             object result = null;
 
             try
-            {
-                result = Container.Resolve(serviceType);
-            }
-            catch (ResolutionFailedException)
-            {
-                // Ignore and continue
-            }
+            { result = Container.Resolve(serviceType); }
+            catch (ResolutionFailedException) { } // Ignore and continue
 
-            //
             // Try the next provider
             if (result == null)
             {
-                result = _next?.GetService(serviceType);
+                result = NextServiceProvider?.GetService(serviceType);
             }
 
-            //
             // Default activation
-            if (result == null)
+            if (result == null && (result = DefaultCreateInstance(serviceType)) != null)
             {
-                if ((result = DefaultCreateInstance(serviceType)) != null)
-                { 
-                    // Cache it
-                    if (_typesCannotResolve.Count < TypesCannontResolveCacheCap)
-                    { 
-                        _typesCannotResolve.TryAdd(serviceType, true);
-                    }
+                // Cache it
+                if (_typesCannotResolve.Count < TypesCannontResolveCacheCap)
+                {
+                    _typesCannotResolve.TryAdd(serviceType, true);
                 }
             }
 
             return result;
         }
 
-        public IUnityContainer Container { get; internal set; } = new UnityContainer();
-        
         public void Stop(bool immediate)
         {
             HostingEnvironment.UnregisterObject(this);
@@ -87,24 +77,19 @@ namespace Microsoft.AspNet.WebFormsDependencyInjection.Unity
             Container.Dispose();
         }
 
-        internal IServiceProvider NextServiceProvider
-        {
-            get { return _next; }
-        }
-
-        internal IDictionary<Type, bool> TypeCannotResolveDictionary
-        {
-            get { return _typesCannotResolve; }
-        }
-
         protected virtual object DefaultCreateInstance(Type type)
         {
             return Activator.CreateInstance(
-                        type,
-                        BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.CreateInstance,
-                        null,
-                        null,
-                        null);
+                type,
+                BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.CreateInstance,
+                null,
+                null,
+                null);
+        }
+
+        public void Dispose()
+        {
+            Container.Dispose();
         }
     }
 }

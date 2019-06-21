@@ -3,15 +3,15 @@
 
 namespace Microsoft.AspNet.WebFormsDependencyInjection.Unity
 {
-    using System.Web;
     using global::Unity;
+    using System.Web;
 
     /// <summary>
     /// Extension methods of HttpApplication that help use Unity container
     /// </summary>
     public static class UnityAdapter
     {
-        private static object _lock = new object();
+        private static readonly object _lock = new object();
 
         /// <summary>
         /// Add a new Unity container in asp.net application. If there is WebObjectActivator already registered,
@@ -19,13 +19,12 @@ namespace Microsoft.AspNet.WebFormsDependencyInjection.Unity
         /// will be used. If the previous WebObjectActivator can't resolve it either, DefaultCreateInstance will be used
         /// which creates instance through none public default constructor based on reflection.
         /// </summary>
-        /// <returns></returns>
         public static IUnityContainer AddUnity()
         {
             lock (_lock)
             {
                 HttpRuntime.WebObjectActivator = new ContainerServiceProvider(HttpRuntime.WebObjectActivator);
-                
+
                 return GetContainer();
             }
         }
@@ -33,7 +32,6 @@ namespace Microsoft.AspNet.WebFormsDependencyInjection.Unity
         /// <summary>
         /// Get most recent added Unity container
         /// </summary>
-        /// <returns></returns>
         public static IUnityContainer GetContainer()
         {
             return (HttpRuntime.WebObjectActivator as ContainerServiceProvider)?.Container;
