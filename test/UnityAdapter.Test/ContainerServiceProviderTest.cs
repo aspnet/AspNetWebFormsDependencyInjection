@@ -3,13 +3,12 @@
 
 namespace Microsoft.AspNet.WebFormsDependencyInjection.Unity.Test
 {
-    using Moq;
-    using Microsoft.AspNet.WebFormsDependencyInjection.Unity;
-    using System;
-    using Xunit;
-    using global::Unity.Exceptions;
     using global::Unity;
+    using Microsoft.AspNet.WebFormsDependencyInjection.Unity;
+    using Moq;
+    using System;
     using System.Web;
+    using Xunit;
 
     public class ContainerServiceProviderTest
     {
@@ -43,6 +42,7 @@ namespace Microsoft.AspNet.WebFormsDependencyInjection.Unity.Test
         {
             var existingSP = new Mock<IServiceProvider>();
             existingSP.Setup(sp => sp.GetService(typeof(TypeToResolveBase))).Returns(new TypeToResolve());
+
             var containerSP = new ContainerServiceProvider(existingSP.Object);
             var resolvedObj = containerSP.GetService(typeof(TypeToResolveBase));
 
@@ -60,18 +60,19 @@ namespace Microsoft.AspNet.WebFormsDependencyInjection.Unity.Test
 
             container.Setup(sp => sp.Resolve(typeToResolve, "", null)).Callback(() =>
             {
-                if(isFirstCall)
+                if (isFirstCall)
                 {
                     isFirstCall = false;
                     throw new ResolutionFailedException(typeToResolve, "", "", null);
                 }
-                else
-                {
-                    secondCalled = true;
-                }
+                else { secondCalled = true; }
             });
-            var containerSP = new ContainerServiceProvider(null);
-            containerSP.Container = container.Object;
+
+            var containerSP = new ContainerServiceProvider(null)
+            {
+                Container = container.Object
+            };
+
             var resolvedObj = containerSP.GetService(typeToResolve);
             Assert.NotNull(resolvedObj);
             Assert.IsType(typeToResolve, resolvedObj);
@@ -94,13 +95,10 @@ namespace Microsoft.AspNet.WebFormsDependencyInjection.Unity.Test
         }
     }
 
-    class TypeToResolveBase
+    internal class TypeToResolveBase
     {
         protected TypeToResolveBase() { }
     }
 
-    class TypeToResolve : TypeToResolveBase
-    {
-        public TypeToResolve() { }
-    }
+    internal class TypeToResolve : TypeToResolveBase { }
 }

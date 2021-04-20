@@ -3,9 +3,9 @@
 
 namespace Microsoft.AspNet.WebFormsDependencyInjection.Unity
 {
+    using global::Unity;
     using System;
     using System.Web;
-    using global::Unity;
 
     /// <summary>
     /// Extension methods of HttpApplication that help use Unity container
@@ -13,26 +13,24 @@ namespace Microsoft.AspNet.WebFormsDependencyInjection.Unity
     public static class HttpApplicationExtensions
     {
         /// <summary>
-        /// 
+        /// Extension method to AddUnity.
         /// </summary>
         /// <param name="application"></param>
-        /// <returns></returns>
         public static IUnityContainer AddUnity(this HttpApplication application)
-        { 
-            if (application == null)
-            { 
-                throw new ArgumentNullException(nameof(application));
-            }
+        {
+            if (application == null) throw new ArgumentNullException(nameof(application));
 
             return UnityAdapter.AddUnity();
         }
 
         /// <summary>
-        /// 
+        /// Extension method to acquire the internal UnityContainer
         /// </summary>
-        /// <returns></returns>
+        /// <param name="application"></param>
         public static IUnityContainer GetUnityContainer(this HttpApplication application)
         {
+            if (application == null) throw new ArgumentNullException(nameof(application));
+
             return UnityAdapter.GetContainer();
         }
     }
