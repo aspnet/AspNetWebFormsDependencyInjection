@@ -1,4 +1,5 @@
-_This project demonstrates building a dependency injection adapter for the [Unity](https://github.com/unitycontainer/unity) IoC container **as a point of reference** for other adapter authors. Please note that this implementation is for demonstration purposes only and **is not being actively maintained.**_
+> **Warning**
+> _This project demonstrates building a dependency injection adapter for the [Unity](https://github.com/unitycontainer/unity) IoC container. **It is a point of reference** for other adapter authors. Please note that this implementation is for demonstration purposes only and **is not being actively maintained.**_
 
 ## Introduction
 [Dependency injection](https://en.wikipedia.org/wiki/Dependency_injection) design pattern is widely used in modern applications. It decouples objects to the extent that no client code has to be changed simply because an object it depends on needs to be changed to a different one. It brings you a lot of [benefits](http://tutorials.jenkov.com/dependency-injection/dependency-injection-benefits.html), like reduced dependency, more reusable code, more testable code, etc. However, it was very difficult to use dependency injection in WebForms application before. This is not an issue in .Net Framework 4.7.2 anymore. Dependency injection is natively supported in WebForms applications. 
@@ -11,21 +12,18 @@ _This project demonstrates building a dependency injection adapter for the [Unit
     <httpRuntime targetFramework="4.7.2"/>
   </system.web>
 ```
-2. Install Microsoft.AspNet.WebFormsDependencyInjection.Unity nupkg in your project.
-3. Open Global.asax and register the types in UnityContainer.
+2. Add the [`Unity.Container`](https://www.nuget.org/packages/Unity.Container/5.8.6) nuget package to your web project.
+3. Add a reference to Microsoft.AspNet.WebFormsDependencyInjection.Unity.dll built by this project in your web project.
+4. Open Global.asax and register the types in UnityContainer.
 ```
-        protected void Application_Start(object sender, EventArgs e)
-        {
-            var container = this.AddUnity();
-
-            container.RegisterType<ISomeInterface, SomeImplementation>();
-        }
+  protected void Application_Start(object sender, EventArgs e)
+  {
+    var container = this.AddUnity();
+    container.RegisterType<ISomeInterface, SomeImplementation>();
+  }
 ```
 
 ## How to build
 1. Open a [VS developer command prompt](https://docs.microsoft.com/en-us/dotnet/framework/tools/developer-command-prompt-for-vs)
 2. Run build.cmd. This will build Nuget package and run all the unit tests.
 3. All the build artifacts will be under AspNetWebFormsDependencyInjection\bin\Release\ folder.
-
-## How to contribute
-Information on contributing to this repo is in the [Contributing Guide](CONTRIBUTING.md).
